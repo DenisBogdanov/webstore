@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 /**
  * Denis, 19.08.2018
  */
-
 @Controller
 public class HomeController {
 

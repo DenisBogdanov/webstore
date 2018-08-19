@@ -12,7 +12,6 @@ import org.springframework.web.servlet.view.JstlView;
 /**
  * Denis, 19.08.2018
  */
-
 @Configuration
 @EnableWebMvc
 @ComponentScan("ru.bogdanium.webstore")
