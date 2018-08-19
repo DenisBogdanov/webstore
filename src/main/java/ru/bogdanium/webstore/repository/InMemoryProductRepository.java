@@ -18,6 +18,11 @@ import java.util.Map;
 @Repository
 public class InMemoryProductRepository implements ProductRepository {
 
+    private static final String SQL_UPDATE_STOCK = "" +
+            "UPDATE products " +
+            "SET units_in_stock=:unitsInStock " +
+            "WHERE id=:id";
+
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -27,6 +32,14 @@ public class InMemoryProductRepository implements ProductRepository {
         List<Product> products =
                 jdbcTemplate.query("SELECT * FROM products", params, new ProductMapper());
         return products;
+    }
+
+    @Override
+    public void updateStock(String productId, long qtyOfUnits) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("unitsInStock", qtyOfUnits);
+        params.put("id", productId);
+        jdbcTemplate.update(SQL_UPDATE_STOCK, params);
     }
 
     private static final class ProductMapper implements RowMapper<Product> {

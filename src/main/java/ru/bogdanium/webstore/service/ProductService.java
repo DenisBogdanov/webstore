@@ -1,4 +1,4 @@
-package ru.bogdanium.webstore.repository;
+package ru.bogdanium.webstore.service;
 
 import ru.bogdanium.webstore.model.Product;
 
@@ -7,8 +7,8 @@ import java.util.List;
 /**
  * Denis, 19.08.2018
  */
-public interface ProductRepository {
+public interface ProductService {
     List<Product> getAllProducts();
 
-    void updateStock(String productId, long qtyOfUnits);
+    void updateAllStock();
 }
