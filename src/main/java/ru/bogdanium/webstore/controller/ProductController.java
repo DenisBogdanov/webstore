@@ -3,10 +3,8 @@ package ru.bogdanium.webstore.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.MatrixVariable;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import ru.bogdanium.webstore.model.Product;
 import ru.bogdanium.webstore.service.ProductService;
 
 import java.util.List;
@@ -45,6 +43,19 @@ public class ProductController {
     public String getProductById(Model model, @RequestParam String id) {
         model.addAttribute("product", productService.getProductById(id));
         return "product";
+    }
+
+    @RequestMapping(value = "/products/add", method = RequestMethod.GET)
+    public String getForm(Model model) {
+        Product product = new Product();
+        model.addAttribute("product", product);
+        return "addProduct";
+    }
+
+    @RequestMapping(value = "/products/add", method = RequestMethod.POST)
+    public String addProduct(@ModelAttribute("product") Product product) {
+        productService.addProduct(product);
+        return "redirect:/market/products";
     }
 
     @RequestMapping("/update/stock")

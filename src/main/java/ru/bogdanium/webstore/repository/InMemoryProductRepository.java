@@ -32,6 +32,13 @@ public class InMemoryProductRepository implements ProductRepository {
             "SELECT * FROM products " +
             "WHERE id=:id";
 
+    private static final String SQL_ADD = "" +
+            "INSERT INTO products " +
+            "   (id, name, description, unit_price, manufacturer, category, " +
+            "    condition, units_in_stock, units_in_order, discontinued) " +
+            "VALUES (:id, :name, :description, :unitPrice, :manufacturer, :category," +
+            "        :condition, :unitsInStock, :unitsInOrder, :discontinued)";
+
     private static final String SQL_UPDATE_STOCK = "" +
             "UPDATE products " +
             "SET units_in_stock=:unitsInStock " +
@@ -63,6 +70,23 @@ public class InMemoryProductRepository implements ProductRepository {
         Map<String, Object> params = new HashMap<>();
         params.put("id", productId);
         return jdbcTemplate.queryForObject(SQL_GET_BY_ID, params, new ProductMapper());
+    }
+
+    @Override
+    public void addProduct(Product product) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("id", product.getProductId());
+        params.put("name", product.getName());
+        params.put("description", product.getDescription());
+        params.put("unitPrice", product.getUnitPrice());
+        params.put("manufacturer", product.getManufacturer());
+        params.put("category", product.getCategory());
+        params.put("condition", product.getCondition());
+        params.put("unitsInStock", product.getUnitsInStock());
+        params.put("unitsInOrder", product.getUnitsInOrder());
+        params.put("discontinued", product.isDiscontinued());
+
+        jdbcTemplate.update(SQL_ADD, params);
     }
 
     @Override
