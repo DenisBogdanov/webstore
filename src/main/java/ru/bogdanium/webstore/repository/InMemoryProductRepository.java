@@ -20,14 +20,18 @@ public class InMemoryProductRepository implements ProductRepository {
 
     private static final String SQL_SELECT_ALL = "SELECT * FROM products";
 
+    private static final String SQL_SELECT_BY_CATEGORY = "" +
+            "SELECT * FROM products " +
+            "WHERE category=:category";
+
+    private static final String SQL_SELECT_BY_FILTER = "" +
+            "SELECT * FROM products " +
+            "WHERE category IN (:categories) AND manufacturer IN (:brands)";
+
     private static final String SQL_UPDATE_STOCK = "" +
             "UPDATE products " +
             "SET units_in_stock=:unitsInStock " +
             "WHERE id=:id";
-
-    private static final String SQL_SELECT_BY_CATEGORY = "" +
-            "SELECT * FROM products " +
-            "WHERE category=:category";
 
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
@@ -43,6 +47,11 @@ public class InMemoryProductRepository implements ProductRepository {
         Map<String, Object> params = new HashMap<>();
         params.put("category", category);
         return jdbcTemplate.query(SQL_SELECT_BY_CATEGORY, params, new ProductMapper());
+    }
+
+    @Override
+    public List<Product> getProductsByFilter(Map<String, List<String>> filterParams) {
+        return jdbcTemplate.query(SQL_SELECT_BY_FILTER, filterParams, new ProductMapper());
     }
 
     @Override

@@ -6,6 +6,7 @@ import ru.bogdanium.webstore.model.Product;
 import ru.bogdanium.webstore.repository.ProductRepository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Denis, 19.08.2018
@@ -24,6 +25,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> getProductsByCategory(String category) {
         return productRepository.getProductsByCategory(category);
+    }
+
+    @Override
+    public List<Product> getProductsByFilter(Map<String, List<String>> filterParams) {
+        return productRepository.getProductsByFilter(filterParams);
     }
 
     @Override
