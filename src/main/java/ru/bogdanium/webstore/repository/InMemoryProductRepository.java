@@ -28,6 +28,10 @@ public class InMemoryProductRepository implements ProductRepository {
             "SELECT * FROM products " +
             "WHERE category IN (:categories) AND manufacturer IN (:brands)";
 
+    private static final String SQL_GET_BY_ID = "" +
+            "SELECT * FROM products " +
+            "WHERE id=:id";
+
     private static final String SQL_UPDATE_STOCK = "" +
             "UPDATE products " +
             "SET units_in_stock=:unitsInStock " +
@@ -52,6 +56,13 @@ public class InMemoryProductRepository implements ProductRepository {
     @Override
     public List<Product> getProductsByFilter(Map<String, List<String>> filterParams) {
         return jdbcTemplate.query(SQL_SELECT_BY_FILTER, filterParams, new ProductMapper());
+    }
+
+    @Override
+    public Product getProductById(String productId) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("id", productId);
+        return jdbcTemplate.queryForObject(SQL_GET_BY_ID, params, new ProductMapper());
     }
 
     @Override

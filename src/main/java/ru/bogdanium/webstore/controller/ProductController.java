@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.MatrixVariable;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.bogdanium.webstore.service.ProductService;
 
 import java.util.List;
@@ -38,6 +39,12 @@ public class ProductController {
             @MatrixVariable(pathVar = "params") Map<String, List<String>> filterParams) {
         model.addAttribute("products", productService.getProductsByFilter(filterParams));
         return "products";
+    }
+
+    @RequestMapping("/product")
+    public String getProductById(Model model, @RequestParam String id) {
+        model.addAttribute("product", productService.getProductById(id));
+        return "product";
     }
 
     @RequestMapping("/update/stock")
