@@ -18,10 +18,16 @@ import java.util.Map;
 @Repository
 public class InMemoryProductRepository implements ProductRepository {
 
+    private static final String SQL_SELECT_ALL = "SELECT * FROM products";
+
     private static final String SQL_UPDATE_STOCK = "" +
             "UPDATE products " +
             "SET units_in_stock=:unitsInStock " +
             "WHERE id=:id";
+
+    private static final String SQL_SELECT_BY_CATEGORY = "" +
+            "SELECT * FROM products " +
+            "WHERE category=:category";
 
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
@@ -29,9 +35,14 @@ public class InMemoryProductRepository implements ProductRepository {
     @Override
     public List<Product> getAllProducts() {
         Map<String, Object> params = new HashMap<>();
-        List<Product> products =
-                jdbcTemplate.query("SELECT * FROM products", params, new ProductMapper());
-        return products;
+        return jdbcTemplate.query(SQL_SELECT_ALL, params, new ProductMapper());
+    }
+
+    @Override
+    public List<Product> getProductsByCategory(String category) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("category", category);
+        return jdbcTemplate.query(SQL_SELECT_BY_CATEGORY, params, new ProductMapper());
     }
 
     @Override

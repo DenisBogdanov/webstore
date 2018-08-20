@@ -10,5 +10,7 @@ import java.util.List;
 public interface ProductRepository {
     List<Product> getAllProducts();
 
+    List<Product> getProductsByCategory(String category);
+
     void updateStock(String productId, long qtyOfUnits);
 }
