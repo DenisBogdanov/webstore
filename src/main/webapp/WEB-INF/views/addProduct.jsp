@@ -21,7 +21,7 @@
 </section>
 
 <section class="container">
-  <form:form method="post" modelAttribute="product" class="form-horizontal">
+  <form:form method="post" modelAttribute="productToAdd" class="form-horizontal">
     <fieldset>
       <legend>Add new product</legend>
 
@@ -85,13 +85,6 @@
         </label>
         <div class="col-lg-10">
           <form:textarea id="description" path="description" rows="2"/>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label class="control-label col-lg-2" for="discontinued">Discontinued</label>
-        <div class="col-lg-10">
-          <form:checkbox id="discontinued" path="discontinued"/>
         </div>
       </div>
 

@@ -3,6 +3,9 @@ package ru.bogdanium.webstore.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ru.bogdanium.webstore.model.Product;
 import ru.bogdanium.webstore.service.ProductService;
@@ -34,7 +37,7 @@ public class ProductController {
 
     @RequestMapping("/products/filter/{params}")
     public String getProductsByFilter(Model model,
-            @MatrixVariable(pathVar = "params") Map<String, List<String>> filterParams) {
+                                      @MatrixVariable(pathVar = "params") Map<String, List<String>> filterParams) {
         model.addAttribute("products", productService.getProductsByFilter(filterParams));
         return "products";
     }
@@ -47,14 +50,22 @@ public class ProductController {
 
     @RequestMapping(value = "/products/add", method = RequestMethod.GET)
     public String getForm(Model model) {
-        Product product = new Product();
-        model.addAttribute("product", product);
+        Product productToAdd = new Product();
+        model.addAttribute("productToAdd", productToAdd);
         return "addProduct";
     }
 
     @RequestMapping(value = "/products/add", method = RequestMethod.POST)
-    public String addProduct(@ModelAttribute("product") Product product) {
-        productService.addProduct(product);
+    public String addProduct(@ModelAttribute("productToAdd") Product productToAdd,
+                             BindingResult result) {
+
+        String[] suppressedFields = result.getSuppressedFields();
+        if (suppressedFields.length != 0) {
+            throw new RuntimeException("Attempting to bind disallowed fields: " +
+                    StringUtils.arrayToCommaDelimitedString(suppressedFields));
+        }
+
+        productService.addProduct(productToAdd);
         return "redirect:/market/products";
     }
 
@@ -62,5 +73,19 @@ public class ProductController {
     public String updateStock(Model model) {
         productService.updateAllStock();
         return "redirect:/market/products";
+    }
+
+    @InitBinder
+    public void initialiseBinder(WebDataBinder binder) {
+        binder.setAllowedFields(
+                "productId",
+                "name",
+                "unitPrice",
+                "description",
+                "manufacturer",
+                "category",
+                "unitsInStock",
+                "condition"
+        );
     }
 }
