@@ -13,6 +13,12 @@
 <body>
 
 <section>
+  <div class="pull-right" style="padding-right:50px">
+    <a href="?language=en">English</a> | <a href="?language=nl">Dutch</a>
+  </div>
+</section>
+
+<section>
   <div class="jumbotron">
     <div class="container">
       <h1>Products</h1>
@@ -105,7 +111,7 @@
           <spring:message code="addProduct.form.productImage.label"/>
         </label>
         <div class="col-lg-10">
-          <form:input path="productImage" id="productImage" type="file" cssClass="form:input-large" />
+          <form:input path="productImage" id="productImage" type="file" cssClass="form:input-large"/>
         </div>
       </div>
 

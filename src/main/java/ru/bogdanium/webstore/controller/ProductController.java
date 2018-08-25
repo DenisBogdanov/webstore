@@ -120,7 +120,8 @@ public class ProductController {
                 "category",
                 "unitsInStock",
                 "condition",
-                "productImage"
+                "productImage",
+                "language"
         );
     }
 }
