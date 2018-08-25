@@ -8,6 +8,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+import ru.bogdanium.webstore.exception.NoProductsFoundUnderCategoryException;
+import ru.bogdanium.webstore.exception.ProductNotFoundException;
 import ru.bogdanium.webstore.model.Product;
 import ru.bogdanium.webstore.service.ProductService;
 
@@ -34,7 +37,11 @@ public class ProductController {
 
     @RequestMapping("/products/{category}")
     public String getProductsByCategory(Model model, @PathVariable String category) {
-        model.addAttribute("products", productService.getProductsByCategory(category));
+        List<Product> products = productService.getProductsByCategory(category);
+        if (products == null || products.isEmpty()) {
+            throw new NoProductsFoundUnderCategoryException();
+        }
+        model.addAttribute("products", products);
         return "products";
     }
 
@@ -90,6 +97,17 @@ public class ProductController {
         productService.updateAllStock();
         return "redirect:/market/products";
     }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ModelAndView handleError(HttpServletRequest request, ProductNotFoundException e) {
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("message", e.getMessage());
+        mav.addObject("exception", e);
+        mav.addObject("url", request.getRequestURL() + "?" + request.getQueryString());
+        mav.setViewName("productNotFound");
+        return mav;
+    }
+
 
     @InitBinder
     public void initialiseBinder(WebDataBinder binder) {

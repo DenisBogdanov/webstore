@@ -1,9 +1,11 @@
 package ru.bogdanium.webstore.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import ru.bogdanium.webstore.exception.ProductNotFoundException;
 import ru.bogdanium.webstore.model.Product;
 
 import java.sql.ResultSet;
@@ -69,7 +71,11 @@ public class InMemoryProductRepository implements ProductRepository {
     public Product getProductById(String productId) {
         Map<String, Object> params = new HashMap<>();
         params.put("id", productId);
-        return jdbcTemplate.queryForObject(SQL_GET_BY_ID, params, new ProductMapper());
+        try {
+            return jdbcTemplate.queryForObject(SQL_GET_BY_ID, params, new ProductMapper());
+        } catch (DataAccessException e) {
+            throw new ProductNotFoundException("Product with id=" + productId + " not found.");
+        }
     }
 
     @Override
