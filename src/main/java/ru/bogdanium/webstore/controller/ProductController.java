@@ -7,9 +7,12 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.bogdanium.webstore.model.Product;
 import ru.bogdanium.webstore.service.ProductService;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -57,12 +60,25 @@ public class ProductController {
 
     @RequestMapping(value = "/products/add", method = RequestMethod.POST)
     public String addProduct(@ModelAttribute("productToAdd") Product productToAdd,
-                             BindingResult result) {
+                             BindingResult result,
+                             HttpServletRequest request) {
 
         String[] suppressedFields = result.getSuppressedFields();
         if (suppressedFields.length != 0) {
             throw new RuntimeException("Attempting to bind disallowed fields: " +
                     StringUtils.arrayToCommaDelimitedString(suppressedFields));
+        }
+
+        MultipartFile productImage = productToAdd.getProductImage();
+        String rootDirectory = request.getSession().getServletContext().getRealPath("/");
+        if (productImage != null && !productImage.isEmpty()) {
+            try {
+                productImage.transferTo(new File(
+                        rootDirectory + "resources\\img\\" + productToAdd.getProductId() + ".png"));
+
+            } catch (Exception e) {
+                throw new RuntimeException("Saving Product Image failed", e);
+            }
         }
 
         productService.addProduct(productToAdd);
@@ -85,7 +101,8 @@ public class ProductController {
                 "manufacturer",
                 "category",
                 "unitsInStock",
-                "condition"
+                "condition",
+                "productImage"
         );
     }
 }

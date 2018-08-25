@@ -22,7 +22,7 @@
 </section>
 
 <section class="container">
-  <form:form method="post" modelAttribute="productToAdd" class="form-horizontal">
+  <form:form method="post" modelAttribute="productToAdd" class="form-horizontal" enctype="multipart/form-data">
     <fieldset>
       <legend>Add new product</legend>
 
@@ -97,6 +97,15 @@
           <form:radiobutton path="condition" value="New"/> New<br>
           <form:radiobutton path="condition" value="Old"/> Old<br>
           <form:radiobutton path="condition" value="Refurbished"/> Refurbished<br>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label col-lg-2" for="productImage">
+          <spring:message code="addProduct.form.productImage.label"/>
+        </label>
+        <div class="col-lg-10">
+          <form:input path="productImage" id="productImage" type="file" cssClass="form:input-large" />
         </div>
       </div>
 
