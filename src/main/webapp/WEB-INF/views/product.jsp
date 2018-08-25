@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <!DOCTYPE html>
@@ -46,6 +47,9 @@
         </a>
       </p>
     </div>
+  </div>
+  <div class="col-md-5">
+    <img src="<c:url value="/img/${product.productId}.png"/>" alt="${product.name}" style="width:100%"/>
   </div>
 </section>
 

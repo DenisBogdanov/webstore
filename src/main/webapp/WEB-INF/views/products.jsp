@@ -37,6 +37,7 @@
             </p>
           </div>
         </div>
+        <img src="<c:url value="/img/${product.productId}.png"/>" alt="${product.name}" style="width: 100%;">
       </div>
     </c:forEach>
   </div>
