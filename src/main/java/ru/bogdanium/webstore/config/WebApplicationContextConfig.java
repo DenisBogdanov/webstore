@@ -17,6 +17,7 @@ import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import org.springframework.web.servlet.view.xml.MarshallingView;
 import org.springframework.web.util.UrlPathHelper;
+import ru.bogdanium.webstore.interceptor.ProcessingTimeLogInterceptor;
 import ru.bogdanium.webstore.model.Product;
 
 import java.util.ArrayList;
@@ -97,5 +98,10 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/img/**")
                 .addResourceLocations("/resources/img/");
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new ProcessingTimeLogInterceptor());
     }
 }
