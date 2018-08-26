@@ -8,6 +8,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import org.springframework.web.servlet.view.xml.MarshallingView;
 import org.springframework.web.util.UrlPathHelper;
 import ru.bogdanium.webstore.interceptor.ProcessingTimeLogInterceptor;
+import ru.bogdanium.webstore.interceptor.PromoCodeInterceptor;
 import ru.bogdanium.webstore.model.Product;
 
 import java.util.ArrayList;
@@ -111,6 +113,15 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter {
         return resolver;
     }
 
+    @Bean
+    public HandlerInterceptor promoCodeInterceptor() {
+        PromoCodeInterceptor promoCodeInterceptor = new PromoCodeInterceptor();
+        promoCodeInterceptor.setPromoCode("OFF3R");
+        promoCodeInterceptor.setOfferRedirect("market/products");
+        promoCodeInterceptor.setErrorRedirect("invalidPromoCode");
+        return promoCodeInterceptor;
+    }
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new ProcessingTimeLogInterceptor());
@@ -118,5 +129,8 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter {
         LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
         localeChangeInterceptor.setParamName("language");
         registry.addInterceptor(localeChangeInterceptor);
+
+        registry.addInterceptor(promoCodeInterceptor())
+                .addPathPatterns("/**/market/products/specialOffer");
     }
 }
