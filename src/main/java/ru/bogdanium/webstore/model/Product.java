@@ -2,6 +2,7 @@ package ru.bogdanium.webstore.model;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.springframework.web.multipart.MultipartFile;
+import ru.bogdanium.webstore.validator.ProductId;
 
 import javax.validation.constraints.*;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -16,6 +17,7 @@ import java.util.Objects;
 public class Product {
 
     @Pattern(regexp = "P[1-9]+", message = "{Pattern.Product.productId.validation}")
+    @ProductId
     private String productId;
 
     @Size(min = 4, max = 50, message = "{Size.Product.name.validation}")

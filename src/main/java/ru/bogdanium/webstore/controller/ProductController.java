@@ -71,14 +71,14 @@ public class ProductController {
                              BindingResult result,
                              HttpServletRequest request) {
 
+        if (result.hasErrors()) {
+            return "addProduct";
+        }
+
         String[] suppressedFields = result.getSuppressedFields();
         if (suppressedFields.length != 0) {
             throw new RuntimeException("Attempting to bind disallowed fields: " +
                     StringUtils.arrayToCommaDelimitedString(suppressedFields));
-        }
-
-        if (result.hasErrors()) {
-            return "addProduct";
         }
 
         MultipartFile productImage = productToAdd.getProductImage();
