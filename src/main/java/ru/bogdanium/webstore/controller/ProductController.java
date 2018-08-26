@@ -15,6 +15,7 @@ import ru.bogdanium.webstore.model.Product;
 import ru.bogdanium.webstore.service.ProductService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
@@ -66,7 +67,7 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/products/add", method = RequestMethod.POST)
-    public String addProduct(@ModelAttribute("productToAdd") Product productToAdd,
+    public String addProduct(@ModelAttribute("productToAdd") @Valid Product productToAdd,
                              BindingResult result,
                              HttpServletRequest request) {
 
@@ -74,6 +75,10 @@ public class ProductController {
         if (suppressedFields.length != 0) {
             throw new RuntimeException("Attempting to bind disallowed fields: " +
                     StringUtils.arrayToCommaDelimitedString(suppressedFields));
+        }
+
+        if (result.hasErrors()) {
+            return "addProduct";
         }
 
         MultipartFile productImage = productToAdd.getProductImage();
