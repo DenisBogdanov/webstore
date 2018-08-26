@@ -26,9 +26,13 @@ import org.springframework.web.util.UrlPathHelper;
 import ru.bogdanium.webstore.interceptor.ProcessingTimeLogInterceptor;
 import ru.bogdanium.webstore.interceptor.PromoCodeInterceptor;
 import ru.bogdanium.webstore.model.Product;
+import ru.bogdanium.webstore.validator.ProductValidator;
+import ru.bogdanium.webstore.validator.UnitsInStockValidator;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
 /**
  * Denis, 19.08.2018
@@ -134,6 +138,15 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter {
     @Override
     public Validator getValidator() {
         return validator();
+    }
+
+    @Bean
+    public ProductValidator productValidator() {
+        Set<Validator> springValidators = new HashSet<>();
+        springValidators.add(new UnitsInStockValidator());
+        ProductValidator productValidator = new ProductValidator();
+        productValidator.setSpringValidators(springValidators);
+        return productValidator;
     }
 
     @Override

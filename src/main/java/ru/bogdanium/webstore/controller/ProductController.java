@@ -13,7 +13,7 @@ import ru.bogdanium.webstore.exception.NoProductsFoundUnderCategoryException;
 import ru.bogdanium.webstore.exception.ProductNotFoundException;
 import ru.bogdanium.webstore.model.Product;
 import ru.bogdanium.webstore.service.ProductService;
-import ru.bogdanium.webstore.validator.UnitsInStockValidator;
+import ru.bogdanium.webstore.validator.ProductValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -32,7 +32,7 @@ public class ProductController {
     ProductService productService;
 
     @Autowired
-    private UnitsInStockValidator unitsInStockValidator;
+    private ProductValidator productValidator;
 
     @RequestMapping("/products")
     public String getProducts(Model model) {
@@ -137,6 +137,6 @@ public class ProductController {
                 "productImage",
                 "language"
         );
-        binder.setValidator(unitsInStockValidator);
+        binder.setValidator(productValidator);
     }
 }
