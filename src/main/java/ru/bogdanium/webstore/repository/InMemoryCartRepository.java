@@ -142,8 +142,8 @@ public class InMemoryCartRepository implements CartRepository {
                 cartItemParams.put("quantity", cartItem.getQuantity() + 1);
             }
 
-            cartItemParams.put("productId", productId);
-            cartItemParams.put("cartId", cartId);
+            cartItemParams.put("product_id", productId);
+            cartItemParams.put("cart_id", cartId);
 
             jdbcTemplate.update(sql, cartItemParams);
         }
