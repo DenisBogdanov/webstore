@@ -1,6 +1,6 @@
-DROP TABLE products IF EXISTS;
-DROP TABLE cart IF EXISTS;
 DROP TABLE cart_item IF EXISTS;
+DROP TABLE cart IF EXISTS;
+DROP TABLE products IF EXISTS;
 
 CREATE TABLE products (
   id             VARCHAR(25) PRIMARY KEY,

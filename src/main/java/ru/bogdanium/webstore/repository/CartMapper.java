@@ -31,7 +31,6 @@ public class CartMapper implements RowMapper<Cart> {
 
 
     @Override
-
     public Cart mapRow(ResultSet rs, int rowNum) throws SQLException {
         String id = rs.getString("id");
         Cart cart = new Cart(id);

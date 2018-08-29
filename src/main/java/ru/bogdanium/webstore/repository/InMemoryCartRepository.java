@@ -96,7 +96,7 @@ public class InMemoryCartRepository implements CartRepository {
             Map<String, Object> params = new HashMap<>();
             params.put("id", cartItem.getId());
             params.put("quantity", cartItem.getQuantity());
-            params.put("productId", cartItem.getProductId());
+            params.put("product_id", cartItem.getProductId());
             params.put("cart_id", id);
 
             jdbcTemplate.update(SQL_UPDATE_CART_ITEM, params);
