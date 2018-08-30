@@ -1,5 +1,6 @@
 package ru.bogdanium.webstore.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
@@ -8,7 +9,9 @@ import java.util.function.Function;
 /**
  * Denis, 27.08.2018
  */
-public class Cart {
+public class Cart implements Serializable {
+    private static final long serialVersionUID = 311819439002358361L;
+
     private String id;
     private List<CartItem> cartItems;
     private BigDecimal grandTotal;

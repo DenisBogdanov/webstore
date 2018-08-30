@@ -7,6 +7,7 @@ import ru.bogdanium.webstore.validator.ProductId;
 import javax.validation.constraints.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -14,7 +15,8 @@ import java.util.Objects;
  * Denis, 19.08.2018
  */
 @XmlRootElement
-public class Product {
+public class Product implements Serializable {
+    private static final long serialVersionUID = -5407071129589008683L;
 
     @Pattern(regexp = "P[1-9]+", message = "{Pattern.Product.productId.validation}")
     @ProductId
