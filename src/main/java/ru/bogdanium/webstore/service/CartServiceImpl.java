@@ -3,6 +3,7 @@ package ru.bogdanium.webstore.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.bogdanium.webstore.dto.CartDto;
+import ru.bogdanium.webstore.exception.InvalidCartException;
 import ru.bogdanium.webstore.model.Cart;
 import ru.bogdanium.webstore.repository.CartRepository;
 
@@ -43,5 +44,19 @@ public class CartServiceImpl implements CartService {
     @Override
     public void removeItem(String cartId, String productId) {
         cartRepository.removeItem(cartId, productId);
+    }
+
+    @Override
+    public Cart validate(String cartId) {
+        Cart cart = cartRepository.findById(cartId);
+        if (cart == null || cart.getCartItems().size() == 0) {
+            throw new InvalidCartException("Cart with id=" + cartId + " doesn't exist.");
+        }
+        return cart;
+    }
+
+    @Override
+    public void clearCart(String cartId) {
+        cartRepository.clearCart(cartId);
     }
 }
