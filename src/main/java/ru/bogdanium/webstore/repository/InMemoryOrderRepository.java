@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 import ru.bogdanium.webstore.model.Address;
 import ru.bogdanium.webstore.model.Customer;
 import ru.bogdanium.webstore.model.Order;
@@ -18,6 +19,7 @@ import java.util.Map;
 /**
  * Denis, 29.08.2018
  */
+@Repository
 public class InMemoryOrderRepository implements OrderRepository {
 
     private static final String SQL_SAVE_SHIPPING_DETAIL = "" +
@@ -64,7 +66,7 @@ public class InMemoryOrderRepository implements OrderRepository {
 
         SqlParameterSource parameterSource = new MapSqlParameterSource(params);
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update(SQL_SAVE_SHIPPING_DETAIL, parameterSource, keyHolder, new String[]{"id"});
+        jdbcTemplate.update(SQL_SAVE_SHIPPING_DETAIL, parameterSource, keyHolder, new String[]{"ID"});
 
         return keyHolder.getKey().longValue();
     }
@@ -81,7 +83,7 @@ public class InMemoryOrderRepository implements OrderRepository {
         SqlParameterSource paramSource = new MapSqlParameterSource(params);
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update(SQL_SAVE_CUSTOMER, paramSource, keyHolder, new String[]{"id"});
+        jdbcTemplate.update(SQL_SAVE_CUSTOMER, paramSource, keyHolder, new String[]{"ID"});
 
         return keyHolder.getKey().longValue();
     }
@@ -106,7 +108,7 @@ public class InMemoryOrderRepository implements OrderRepository {
 
     private long createOrder(Order order) {
 
-        Map<String, Object> params = new HashMap<String, Object>();
+        Map<String, Object> params = new HashMap<>();
         params.put("id", order.getOrderId());
         params.put("cart_id", order.getCart().getId());
         params.put("customer_id", order.getCustomer().getCustomerId());
