@@ -1,24 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<html>
-<head>
-  <title>Cart</title>
-  <meta charset="UTF-8">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.1/angular.min.js"></script>
-  <script src="/webstore/resources/js/controllers.js"></script>
-</head>
-<body>
-
-<section>
-  <div class="jumbotron">
-    <div class="container">
-      <h1>Cart</h1>
-      <p>All the selected products in your cart</p>
-    </div>
-  </div>
-</section>
 
 <section class="container" ng-app="cartApp">
   <div ng-controller="cartCtrl" ng-init="initCartId('${cartId}')">
@@ -65,5 +47,3 @@
   </div>
 </section>
 
-</body>
-</html>
