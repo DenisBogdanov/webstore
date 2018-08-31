@@ -13,7 +13,7 @@
     <put-attribute name="footer" value="/WEB-INF/layouts/template/footer.jsp"/>
   </definition>
 
-  <definition name="welcome" extends="baseLayout">
+  <definition name="index" extends="baseLayout">
     <put-attribute name="title" value="Products"/>
     <put-attribute name="heading" value="Products"/>
     <put-attribute name="tagline" value="All the available products in our store"/>
