@@ -28,7 +28,7 @@ public class ProductValidatorTest {
     private ProductValidator productValidator;
 
     @Test
-    public void product_without_UnitPrice_should_be_invalid() {
+    public void productWithoutUnitPriceShouldBeInvalid() {
         Product product = new Product();
         BindException bindException = new BindException(product, "product");
 
@@ -39,7 +39,7 @@ public class ProductValidatorTest {
     }
 
     @Test
-    public void product_with_existing_productId_invalid() {
+    public void productWithExistingProductIdInvalid() {
         Product product = new Product("P1234", "iPhone 5s", new BigDecimal(500));
         product.setCategory("Tablet");
 
@@ -52,7 +52,7 @@ public class ProductValidatorTest {
     }
 
     @Test
-    public void a_valid_product_should_not_get_any_error_during_validation() {
+    public void aValidProductShouldNotGetAnyErrorDuringValidation() {
         Product product = new Product("P9876", "iPhone 5s", new BigDecimal(500));
         product.setCategory("Tablet");
 
